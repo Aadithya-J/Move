@@ -67,16 +67,13 @@ struct ContentView: View {
     var body: some View {
         let n = self.list.count
         if(Lost){
-            Text("Lost")
+            Image("gamelost").scaledToFill()
         }
         else if (Won){
-            Text("Won" + String(movesPlayed))
+            Image("gamewon")
         }
         else{
             if(Start){
-                ZStack{
-                    
-                }
                 VStack{
                     Text("Current Value: " + String(currentVal))
                         .frame(width: 250, height: 35, alignment: .center)
@@ -345,7 +342,7 @@ struct ContentView: View {
             }
             else{
                 ZStack{
-                    Image("home3").resizable().scaledToFill()
+                    Image("home3").resizable().scaledToFill().ignoresSafeArea()
                     
                     VStack{
                         Button(action: {
@@ -410,12 +407,11 @@ struct ContentView: View {
 
             
             }
+
             
         }
-            
-        
-        
 }
+
 struct CardView: View {
     var content = 10
     var color : Color = .yellow
