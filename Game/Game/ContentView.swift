@@ -11,7 +11,7 @@ struct ContentView: View {
     @State var lists = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
     @State var currentVals = 0
     @State private var isGameViewActive = false
-
+    
     func start2(){
         let n = self.lists.count
         for i in 0..<n {
@@ -22,78 +22,86 @@ struct ContentView: View {
         self.currentVals = self.lists[0][0]
     }
     var body: some View {
-        NavigationView(content: {
-            VStack{
-                
-                Button(action: {
-                    start2()
-                    isGameViewActive = true
-                }) {
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 10.0)
-                            .fill(Color.green)
-                            .padding()
-                        
-                        HStack{
-                            Image(systemName: "play.fill")
-                                .font(.title)
-                                .foregroundColor(.white)
-                            Text("Start")
+        NavigationStack{
+            NavigationView(content: {
+                VStack{
+                    
+                    Button(action: {
+                        start2()
+                        isGameViewActive = true
+                    }) {
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 10.0)
+                                .fill(Color.green)
                                 .padding()
-                                .foregroundColor(.white)
-                                .font(.title)
+                            
+                            HStack{
+                                Image(systemName: "play.fill")
+                                    .font(.title)
+                                    .foregroundColor(.white)
+                                Text("Start")
+                                    .padding()
+                                    .foregroundColor(.white)
+                                    .font(.title)
+                                
+                            }
+                            .padding()
                             
                         }
-                        .padding()
+                        .frame(width: 200, height: 25, alignment: .center)
                         
                     }
-                    .frame(width: 200, height: 25, alignment: .center)
-                        
-                }
-                .background(
-                    NavigationLink(
-                        destination: gameview(list: lists, currentVal: currentVals),
-                        isActive: $isGameViewActive,
-                        label: {
-                            EmptyView()
+                    .background(
+                        NavigationLink(
+                            value: isGameViewActive,
+                            label: {
+                                EmptyView()
+                            }
+                        )
+                        .hidden()
+                    )
+                    .navigationDestination(
+                        isPresented: $isGameViewActive,
+                        destination: {
+                            gameview(list: lists, currentVal: currentVals)
                         }
                     )
-                    .hidden()
-                )
-                
-                
-                ZStack{
-                    VStack{
-                        ZStack{
-                            
-                            RoundedRectangle(cornerRadius: 15.0)
-                                .stroke(Color.black,lineWidth: 3)
-                                .frame(width: 380,height: 250,alignment: .center)
-                            
-                            VStack{
-                                Text("Reach Destination within 50 moves to win")
-                                    .padding(5)
-                                Text("Numbers in the grid are in a range of 0 to 30")
-                                    .padding(5)
-                                Text("Rolled numbers are in a range of 0 to 10")
-                                    .padding(5)
-                                Text("click on rolled number to skip/reroll")
-                                    .padding(5)
-                                Text("If your current number goes out of range")
-                                Text("the game will be modulo it by 31")
+
+                    
+                    ZStack{
+                        VStack{
+                            ZStack{
+                                
+                                RoundedRectangle(cornerRadius: 15.0)
+                                    .stroke(Color.black,lineWidth: 3)
+                                    .frame(width: 380,height: 250,alignment: .center)
+                                
+                                VStack{
+                                    Text("Reach Destination within 50 moves to win")
+                                        .padding(5)
+                                    Text("Numbers in the grid are in a range of 0 to 30")
+                                        .padding(5)
+                                    Text("Rolled numbers are in a range of 0 to 10")
+                                        .padding(5)
+                                    Text("click on rolled number to skip/reroll")
+                                        .padding(5)
+                                    Text("If your current number goes out of range")
+                                    Text("the game will be modulo it by 31")
+                                }
+                                
                             }
+                            .padding(100)
                             
                         }
-                        .padding(100)
                         
                     }
-                    
                 }
-            }
-        })
+            })
+        }
+        
         
     }
-            }
+}
 
         
 struct gameview: View{
